@@ -17,7 +17,6 @@ public class Loop implements Runnable{
 	GraphicManager dt;
 	Player[] p;
 	Game game;
-	PhysicsManager pm;
 	
 
 	/*
@@ -29,19 +28,9 @@ public class Loop implements Runnable{
 	*/
 	
 	public Loop(Game g, RendererOut ra, GameRenderer gr){
-		pm = new PhysicsManager();
 		game = g;
-		game.setWorld(pm);
-		pm.setContactListener(game);
 		dt = new GraphicManager(ra,game,gr);
 	}
-
-	public Loop(PhysicsManager pl, Game g, RendererOut ra, GameRenderer gr){
-		pm = pl;
-		game = g;
-		pm.setContactListener(game);
-		dt = new GraphicManager(ra,game,gr);
-	}	
 		
 	long beginLoopTime;
 	long endLoopTime;
@@ -76,7 +65,6 @@ public class Loop implements Runnable{
 			lastUpdateTime = currentUpdateTime;
 			currentUpdateTime = System.nanoTime();
 			temp = (int) ((currentUpdateTime - lastUpdateTime)/(1000*1000));
-			pm.step(((float)temp/1000),pm.velIterations,pm.posIterations);
 			game.t(temp);
 			endLoopTime = System.nanoTime();
 			deltaLoop = endLoopTime - beginLoopTime;

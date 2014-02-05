@@ -2,8 +2,6 @@ package graphic;
 
 import java.util.Collection;
 
-import physics.PhysicsManager;
-
 
 
 

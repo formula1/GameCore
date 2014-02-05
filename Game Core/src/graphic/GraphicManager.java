@@ -12,11 +12,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import org.jbox2d.common.Vec2;
 
 
 
 import abstracts.Game;
+import assets.Vec2u;
 import assets.WH;
 
 public class GraphicManager {
@@ -58,7 +58,7 @@ public class GraphicManager {
 		this.out = out;
 		this.game = game;
 		graphicWH = new WH(out.getDrawGraphics().getClipBounds().width,out.getDrawGraphics().getClipBounds().height);
-		this.curCam = new Camera(new Vec2(0,0),new Vec2(1,1),0f);
+		this.curCam = new Camera(new Vec2u(0,0),new Vec2u(1,1),0f);
 	}
 	
 	public GraphicManager(RendererOut out, Game game, GameRenderer dr){
@@ -67,17 +67,17 @@ public class GraphicManager {
 		default_render = true;
 		this.dr = dr;
 		graphicWH = out.getGraphicBounds();
-		this.curCam = new Camera(new Vec2(graphicWH.width/2,graphicWH.height/2),new Vec2(2,2),0f);
+		this.curCam = new Camera(new Vec2u(graphicWH.width/2,graphicWH.height/2),new Vec2u(2,2),0f);
 	}
 
 	
-	public void setCamera(Vec2 scale,Float angle, Vec2 pos){
+	public void setCamera(Vec2u scale,Float angle, Vec2u pos){
 		curCam = new Camera(pos, scale, angle);
 	}
-	public void tweenCamera(Vec2 scale,Float angle, Vec2 pos, int time){
+	public void tweenCamera(Vec2u scale,Float angle, Vec2u pos, int time){
 		curCam.setTween(scale,angle,pos,time);
 	}
-	public void tweenCamera(float scale,Float angle, Vec2 pos, int time){
+	public void tweenCamera(float scale,Float angle, Vec2u pos, int time){
 		curCam.setTween(scale,angle,pos,time);
 	}
 	
@@ -103,9 +103,9 @@ public class GraphicManager {
 		HashMap<Integer, Graphics2D> gs = new HashMap<Integer, Graphics2D>();
 		
 
-		Vec2 camerascale = new Vec2(graphicWH.width/curCam.bounds.x,graphicWH.height/curCam.bounds.y);
-		Vec2 scaledpos = new Vec2(curCam.position.x*-camerascale.x,curCam.position.y*-camerascale.y);
-		scaledpos = scaledpos.add(new Vec2(graphicWH.width/2,graphicWH.height/2));
+		Vec2u camerascale = new Vec2u(graphicWH.width/curCam.bounds.x,graphicWH.height/curCam.bounds.y);
+		Vec2u scaledpos = new Vec2u(curCam.position.x*-camerascale.x,curCam.position.y*-camerascale.y);
+		scaledpos = scaledpos.add(new Vec2u(graphicWH.width/2,graphicWH.height/2));
 		
 		while(currentGraphics.size() > 0){
 			if(buffs.get(currentGraphics.get(0).layer) == null){

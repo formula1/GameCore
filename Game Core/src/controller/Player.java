@@ -86,6 +86,13 @@ public abstract class Player implements Runnable{
 		this();
 		playernumber = pn;
  	}
+	
+	
+	public static int UP = 1;
+	public static int RIGHT = 2;
+	public static int DOWN = 4;
+	public static int LEFT = 8;
+	
 
 	
 }//End Player Class

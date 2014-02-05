@@ -1,17 +1,17 @@
 package graphic;
 
 
-import org.jbox2d.common.Vec2;
+import assets.Vec2u;
 
 public class Camera{
-	public Vec2 bounds;
+	public Vec2u bounds;
 	public float angle;
-	public Vec2 position;
+	public Vec2u position;
 	private Camera tweenCamera;
 	private int tweenTime;
 	public boolean anim=false;
 	
-	public Camera(Vec2 pos, Vec2 bounds, Float ang){
+	public Camera(Vec2u pos, Vec2u bounds, Float ang){
 		if(bounds != null) this.bounds = bounds;
 		if(ang != null) this.angle = ang;
 		if(pos != null) this.position = pos;
@@ -28,19 +28,19 @@ public class Camera{
 	}
 	
 	
-	public void setTween(Vec2 scale,Float angle, Vec2 pos, int time){
+	public void setTween(Vec2u scale,Float angle, Vec2u pos, int time){
 		tweenCamera = new Camera(
-				new Vec2(pos.x - position.x, pos.y - position.y),
-				scale.sub(this.bounds),
+				new Vec2u(pos.x - position.x, pos.y - position.y),
+				scale.add(this.bounds.mul(-1)),
 				angle - this.angle
 		);
 		this.tweenTime = time;
 		anim = true;
 	}
-	public void setTween(float scale,Float angle, Vec2 pos, int time){
+	public void setTween(float scale,Float angle, Vec2u pos, int time){
 		tweenCamera = new Camera(
-				new Vec2(pos.x - position.x, pos.y - position.y),
-				this.bounds.mul(-1).add(new Vec2(scale,scale)),
+				new Vec2u(pos.x - position.x, pos.y - position.y),
+				this.bounds.mul(-1).add(new Vec2u(scale,scale)),
 				angle - this.angle
 		);
 		this.tweenTime = time;

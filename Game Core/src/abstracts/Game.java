@@ -3,22 +3,20 @@ package abstracts;
 
 
 
+import graphic.GameRenderer;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
 
-import org.jbox2d.callbacks.ContactListener;
-import org.jbox2d.dynamics.Body;
-
-import physics.PhysicsManager;
 import physics.TimeListener;
 
 
 import controller.Player;
 import controller.PlayerListener;
 
-abstract public class Game implements ContactListener, PlayerListener{
+abstract public class Game implements PlayerListener{
 /*
  * The game is the base for everything
  * The game isn't a thread but rather a communication engine
@@ -40,7 +38,6 @@ abstract public class Game implements ContactListener, PlayerListener{
  * That reads inputs and sets outputs
  * 
  */
-	public static PhysicsManager world;
 	public static HashMap<String, Float>[] players;
 	ArrayList<TimeListener> timelisteners;
 
@@ -52,13 +49,9 @@ abstract public class Game implements ContactListener, PlayerListener{
 	public Game(){
 		timelisteners = new ArrayList<TimeListener>();
 
-		Game.to_die = new ArrayList<Body>();
 	}
 	
-//	Begin inputs
-	public void setWorld(PhysicsManager pm){
-		world = pm;
-	}
+	public abstract GameRenderer getRenderer();
 	
 	public void setPlayers(Player[] ps){
 		Game.players = new HashMap[ps.length];
@@ -82,8 +75,6 @@ abstract public class Game implements ContactListener, PlayerListener{
 	}
 
 	public void t(long time){
-		cleanUp();
-		to_die = new ArrayList<Body>();
 		for(TimeListener l:timelisteners) l.time(time);
 
 		time(time);
@@ -95,22 +86,6 @@ abstract public class Game implements ContactListener, PlayerListener{
 //end inputs
 	
 //begin outputs
-	
-	public static ArrayList<Body> to_die;
-	public static void kill(Body b){
-		to_die.add(b);
-	}
-	public void cleanUp(){
-		ArrayList<Object> alreadyHandled = new ArrayList<Object>();
-		for(Body b : to_die){
-			if(b.getUserData() != null && !alreadyHandled.contains(b.getUserData())){
-				deleteAssociated(b.getUserData());
-				alreadyHandled.add(b.getUserData());
-			}
-			Game.world.destroyBody(b);
-		}
-		
-	}
 	
 	public abstract void deleteAssociated(Object o);	
 }//End Game Class
