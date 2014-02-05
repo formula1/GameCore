@@ -62,23 +62,7 @@ abstract public class Game implements PlayerListener{
 			}
 		}
 	}
-	
-	public abstract void worldInit();
-	
-	public abstract void playerEnter(int playernumber);
-	public abstract void playerLeave(int playernumber);
-	public abstract void playerAction(int playernumber, String button, float amount);
 
-	
-	public void addTimeListener(TimeListener t){
-		timelisteners.add(t);
-	}
-
-	public void t(long time){
-		for(TimeListener l:timelisteners) l.time(time);
-
-		time(time);
-	}
 	public abstract void time(long time);
 	
 	//implements Contact Listener

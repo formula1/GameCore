@@ -2,7 +2,8 @@ package ui;
 
 import java.util.ArrayList;
 
-import org.jbox2d.common.Vec2;
+import assets.Vec2u;
+
 
 public class GuiVerticalList extends GuiContain {
 
@@ -13,8 +14,8 @@ public float vertical_wrap;//true: if things are too big for the Pane, it will g
 		
 ArrayList<GuiItem> items;
 
-public Vec2 getPopulatePad(){
-	Vec2 poppad = new Vec2();
+public Vec2u getPopulatePad(){
+	Vec2u poppad = new Vec2u();
 	if(horizontal_float > 0){
 		poppad.x = padding.left;
 	}else if(horizontal_float < 0){
@@ -33,8 +34,8 @@ public void populate(){
 
 	float currentlinewidth =0;
 	float totalwidth;
-	Vec2 pp = getPopulatePad();
-	Vec2 currentPoint = pp;
+	Vec2u pp = getPopulatePad();
+	Vec2u currentPoint = pp;
 	
 	ArrayList<GuiItem> items_cur_line = new ArrayList<GuiItem>();
 	
@@ -54,7 +55,7 @@ public void populate(){
 		
 		currentPoint.x += g.margins.left;
 		g.drawing_offset.x = currentPoint.x;
-		Vec2 gwh = g.width_height();
+		Vec2u gwh = g.width_height();
 		totalwidth = gwh.x + g.margins.left + g.margins.right;
 		if(totalwidth > currentlinewidth){
 			for(GuiItem l : items_cur_line) 
@@ -69,7 +70,7 @@ public void populate(){
 }
 
 @Override
-public Vec2 width_height() {
+public Vec2u width_height() {
 	//
 	if(total_wh.y < 0){
 		populate();

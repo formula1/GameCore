@@ -2,15 +2,10 @@ package ui;
 
 import java.util.ArrayList;
 
-import org.jbox2d.common.Vec2;
-
 import assets.GuiVec4;
 
 public class Gui {
 	
-	
-
-
 	
 
 	

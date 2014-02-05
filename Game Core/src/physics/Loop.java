@@ -57,18 +57,20 @@ public class Loop implements Runnable{
 		}
 		for(int i=0;i<p.length;i++)
 			players[i].start();
-		game.worldInit();
 		dt.cameraAnimation();
 		while(running){
 			beginLoopTime = System.nanoTime();
-			dt.display();
-			lastUpdateTime = currentUpdateTime;
-			currentUpdateTime = System.nanoTime();
-			temp = (int) ((currentUpdateTime - lastUpdateTime)/(1000*1000));
-			game.t(temp);
+
+				dt.display();
+	
+				lastUpdateTime = currentUpdateTime;
+				currentUpdateTime = System.nanoTime();
+	
+				temp = (int) ((currentUpdateTime - lastUpdateTime)/(1000*1000));
+				game.time(temp);
+
 			endLoopTime = System.nanoTime();
 			deltaLoop = endLoopTime - beginLoopTime;
-			
 			if(deltaLoop >= desiredDeltaLoop){
 			//Do nothing. We are already late.
 			}else{
@@ -81,6 +83,8 @@ public class Loop implements Runnable{
 			}
 
 		}
+		for(int i=0;i<p.length;i++)
+			p[i].end();
 	}
 
 }

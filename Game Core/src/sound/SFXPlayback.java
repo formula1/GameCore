@@ -9,8 +9,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import jframe_render.TheMain;
-
 
 public class SFXPlayback {
 
@@ -29,7 +27,7 @@ public class SFXPlayback {
 					try {
 						refs.put(files.substring(0,-4), 
 							AudioSystem.getAudioInputStream(
-								TheMain.class.getResourceAsStream(path+"/"+files)
+								SFXPlayback.class.getResourceAsStream(path+"/"+files)
 							)
 						);
 					} catch (UnsupportedAudioFileException e) {
