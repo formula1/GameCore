@@ -51,7 +51,9 @@ abstract public class Game implements PlayerListener{
 
 	}
 	
+	
 	public abstract GameRenderer getRenderer();
+	public abstract void ready();
 	
 	public void setPlayers(Player[] ps){
 		Game.players = new HashMap[ps.length];
@@ -64,12 +66,6 @@ abstract public class Game implements PlayerListener{
 	}
 
 	public abstract void time(long time);
-	
-	//implements Contact Listener
-
-//end inputs
-	
-//begin outputs
 	
 	public abstract void deleteAssociated(Object o);	
 }//End Game Class

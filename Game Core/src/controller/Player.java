@@ -64,6 +64,10 @@ public abstract class Player implements Runnable{
 		listeners.remove(g);
 	}
 
+	public void clearListeners(){
+		listeners.clear();
+	}
+	
 	public Player(){
 		listeners = new ArrayList<PlayerListener>();
 		buttons = new HashMap<String,Float>();

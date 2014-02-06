@@ -46,6 +46,7 @@ public class Loop implements Runnable{
 	public void setPlayers(Player[] ps){
 		p = ps;
 		game.setPlayers(ps);
+		game.ready();
 	}
 
 

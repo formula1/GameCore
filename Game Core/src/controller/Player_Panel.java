@@ -14,7 +14,7 @@ public abstract class Player_Panel extends JPanel{
 
 	}
 
-	public abstract void applyPlayers(Player[] players, Game game);
+	public abstract void applyPlayers(Player[] players);
 
 	
 	public abstract Player[] getPlayers();
