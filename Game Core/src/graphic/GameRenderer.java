@@ -1,6 +1,7 @@
 package graphic;
 
 import java.util.Collection;
+import java.util.TreeSet;
 
 
 
@@ -14,7 +15,7 @@ public abstract class GameRenderer {
 		sct = new SinCosTable(13);
 	}
 	
-	public abstract Collection<GameGraphic> getGraphics(GraphicManager gr);
+	public abstract TreeSet<GameGraphic> getGraphics(GraphicManager gr);
 	
 	public abstract void setCamera(GraphicManager gr);
 }

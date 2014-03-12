@@ -74,6 +74,7 @@ public class Loop implements Runnable{
 			deltaLoop = endLoopTime - beginLoopTime;
 			if(deltaLoop >= desiredDeltaLoop){
 			//Do nothing. We are already late.
+				System.out.println("late");
 			}else{
 				try{
 					Thread.sleep((desiredDeltaLoop - deltaLoop)/(1000*1000));

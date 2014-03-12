@@ -3,7 +3,7 @@ package graphic;
 import java.awt.Graphics2D;
 
 
-public abstract class GameGraphic {
+public abstract class GameGraphic implements Comparable<GameGraphic>{
 	public int layer;
 	public boolean scaled = true;
 	public Object userdata = null;
@@ -28,5 +28,11 @@ public abstract class GameGraphic {
 	}
 	
 	public abstract void draw(Graphics2D g);
+	
+	public int compareTo(GameGraphic other){
+		int ret = this.layer - other.layer;
+		if(ret == 0) ret = this.hashCode() - other.hashCode();
+		return ret;
+	}
 
 }

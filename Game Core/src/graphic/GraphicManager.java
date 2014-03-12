@@ -5,12 +5,15 @@ package graphic;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 
 
@@ -50,7 +53,7 @@ public class GraphicManager {
 	Graphics2D g;
 	public WH graphicWH;
 	
-	ArrayList<GameGraphic> currentGraphics;
+	TreeSet<GameGraphic> currentGraphics;
 	
 	
 	
@@ -91,12 +94,17 @@ public class GraphicManager {
 	
 	public void display(){
 
-		currentGraphics = new ArrayList<GameGraphic>();
+		currentGraphics = new TreeSet<GameGraphic>(new Comparator<GameGraphic>(){
+			public int compare(GameGraphic a, GameGraphic b){
+				return a.layer - b.layer;
+			}
+		});
 
 		dr.setCamera(this);
 		
 		if(default_render){
-			currentGraphics.addAll(dr.getGraphics(this));
+			currentGraphics = dr.getGraphics(this);
+			
 		}
 		
 		TreeMap<Integer, BufferedImage> buffs = new TreeMap<Integer, BufferedImage>();
@@ -107,36 +115,33 @@ public class GraphicManager {
 		Vec2u scaledpos = new Vec2u(curCam.position.x*-camerascale.x,curCam.position.y*-camerascale.y);
 		scaledpos = scaledpos.add(new Vec2u(graphicWH.width/2,graphicWH.height/2));
 		
-		while(currentGraphics.size() > 0){
-			if(buffs.get(currentGraphics.get(0).layer) == null){
-				buffs.put(currentGraphics.get(0).layer, new BufferedImage(graphicWH.width, graphicWH.height, BufferedImage.TYPE_4BYTE_ABGR));
-				gs.put(currentGraphics.get(0).layer, buffs.get(currentGraphics.get(0).layer).createGraphics());
-			}
-
-			if(currentGraphics.get(0).scaled){
-				gs.get(currentGraphics.get(0).layer).translate(scaledpos.x, scaledpos.y);
-				gs.get(currentGraphics.get(0).layer).scale(camerascale.x,camerascale.y);
-				gs.get(currentGraphics.get(0).layer).rotate(curCam.angle);
-			}else{
-				gs.get(currentGraphics.get(0).layer).translate(0,graphicWH.height/2);
-				gs.get(currentGraphics.get(0).layer).scale(1,-1);
-				gs.get(currentGraphics.get(0).layer).translate(0,-graphicWH.height/2);
-			}
-
-			currentGraphics.get(0).draw(gs.get(currentGraphics.get(0).layer));
-			if(currentGraphics.get(0).scaled){
-				gs.get(currentGraphics.get(0).layer).rotate(-curCam.angle);
-				gs.get(currentGraphics.get(0).layer).scale(1/camerascale.x, 1/camerascale.y);
-				gs.get(currentGraphics.get(0).layer).translate(-scaledpos.x, -scaledpos.y);
-			}else{
-				gs.get(currentGraphics.get(0).layer).translate(0,graphicWH.height/2);
-				gs.get(currentGraphics.get(0).layer).scale(1,-1);
-				gs.get(currentGraphics.get(0).layer).translate(0,-graphicWH.height/2);
-			}
-
-			currentGraphics.remove(0);
-		}
 		
+		for(GameGraphic gg : currentGraphics){
+			
+			
+			if(buffs.get(gg.layer) == null){
+				buffs.put(gg.layer, new BufferedImage(graphicWH.width, graphicWH.height, BufferedImage.TYPE_4BYTE_ABGR));
+				gs.put(gg.layer, buffs.get(gg.layer).createGraphics());
+			}
+
+			AffineTransform t = gs.get(gg.layer).getTransform();
+
+			
+			if(gg.scaled){
+				gs.get(gg.layer).translate(scaledpos.x, scaledpos.y);
+				gs.get(gg.layer).scale(camerascale.x,camerascale.y);
+				gs.get(gg.layer).rotate(curCam.angle);
+			}else{
+				gs.get(gg.layer).translate(0,graphicWH.height/2);
+				gs.get(gg.layer).scale(1,-1);
+				gs.get(gg.layer).translate(0,-graphicWH.height/2);
+			}
+
+			gg.draw(gs.get(gg.layer));
+			
+			gs.get(gg.layer).setTransform(t);
+		}
+
 		for(Map.Entry<Integer, Graphics2D> m : gs.entrySet()){
 			m.getValue().dispose();
 		}

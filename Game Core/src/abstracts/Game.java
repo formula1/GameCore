@@ -38,7 +38,7 @@ abstract public class Game implements PlayerListener{
  * That reads inputs and sets outputs
  * 
  */
-	public static HashMap<String, Float>[] players;
+	public static Player[] players;
 	ArrayList<TimeListener> timelisteners;
 
 //	protected Player[] players;
@@ -48,7 +48,6 @@ abstract public class Game implements PlayerListener{
 	
 	public Game(){
 		timelisteners = new ArrayList<TimeListener>();
-
 	}
 	
 	
@@ -56,13 +55,7 @@ abstract public class Game implements PlayerListener{
 	public abstract void ready();
 	
 	public void setPlayers(Player[] ps){
-		Game.players = new HashMap[ps.length];
-		for(int i=0;i<Game.players.length;i++){
-			Game.players[i] = new HashMap<String,Float>();
-			for(String but : Player.butnames){
-				Game.players[i].put(but, 0f);
-			}
-		}
+		Game.players = ps;
 	}
 
 	public abstract void time(long time);
